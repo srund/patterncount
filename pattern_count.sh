@@ -68,11 +68,13 @@ FILENAME=$1 # shift above has moved params, $0 is still script name
 #echo $DELIMITER
 
 ## Verify 
-if [ $FILENAME == '' ]; then
+if [ -z $FILENAME ]; then
 	echo "Error: No input file defined. Terminating" >&2
+	exit 1
 fi
-if [ $PATTERN == '' ]; then
+if [ -z $PATTERN ]; then # getopt catch this case
 	echo "Error: No pattern defined. Terminating" >&2
+	exit 1
 fi
 ## Do stuff
 echo -n '' > $OUTFILE # Empty file before use
