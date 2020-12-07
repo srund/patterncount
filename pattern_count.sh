@@ -9,14 +9,15 @@
 ################################################################################
 
 ## Program parameters
-OUTFILE='/dev/stdout'
-FILENAME=''
-PATTERN=''
-DELIMITER=','
+OUTFILE='/dev/stdout'	# (Optional)Default output file.
+FILENAME=''		# (required) File to conduct searches on.
+PATTERN=''		# (Required) Patterns to search for.
+DELIMITER=','		# (Optional) Delimiter between patterns
+COUNTONLY=0		# (Optional) Wether or not to print counts only
 
 ## Params
-SHORT_ARGS='p:d:o:'
-LONG_ARGS='pattern:,delimiter:,output:' # Comma separated
+SHORT_ARGS='p:d:o:c'
+LONG_ARGS='pattern:,delimiter:,output:,count-only' # Comma separated
 
 # We put the parsed options in a variable for now since we want to check getopts
 # return value. Using getopt together with set would have removed the return val
@@ -44,6 +45,10 @@ do
 		'-o' | '--output' )
 			OUTFILE=$2
 			shift 2 #
+			;;
+		'-c' | '--count-only' )
+			COUNTONLY=1
+			shift 1 # No option
 			;;
 		'--') # End of flagged params
 			shift
@@ -74,7 +79,11 @@ echo -n '' > $OUTFILE # Empty file before use
 pattern_array=${PATTERN//$DELIMITER/ }
 for p in ${pattern_array[@]} # Start Stop
 do
-	grep -E $p $FILENAME | wc -l >> $OUTFILE
+	if [ $COUNTONLY -eq  1 ]; then
+		grep -E $p $FILENAME | wc -l >> $OUTFILE
+	else
+		echo "$p : $(grep -E $p $FILENAME | wc -l)" >> $OUTFILE
+	fi
 done
 ## End
 exit 0 # 0 = success

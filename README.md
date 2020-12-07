@@ -24,11 +24,14 @@ $: ./pattern_count.sh --pattern one,two,three myfile.log
 
 *-p / --pattern* : (Required) A list of patterns to match in the file. The list
 should by default be comma-separated. The patterns are passed on to `grep` with
-it's `-E` flag as is. 
+it's `-E` flag as is.
 
 *-o / --output* : (Optional) Output file. Defaults to `stdout`.
 
 *-d / --delimiter* : (Optional) Set the pattern list delimiter. Defaults to `,`
+
+*-c / --count-only* : (Optional) Print counts only. Not corresponding patterns.
+
 
 ### An Example
 
@@ -56,9 +59,9 @@ $: ./pattern_count.sh --pattern '[Tt]wo.[Oo]ne.[Tt]hree' testfile.txt -o outfile
 ```
 When run we expect the following output:
 ```
-4
-2
-6
+[Tt]wo : 4
+[Oo]ne : 2
+[Tt]hree: 6
 ```
 Note that the rows with both two and three have been counted twice since they
 matched same both the pattern for two and three.
