@@ -10,10 +10,10 @@
 
 ## Program parameters
 OUTFILE='/dev/stdout'	# (Optional)Default output file.
-FILENAME=''		# (required) File to conduct searches on.
+FILENAME=''		# (Required) File to conduct searches on.
 PATTERN=''		# (Required) Patterns to search for.
 DELIMITER=','		# (Optional) Delimiter between patterns
-COUNTONLY=0		# (Optional) Wether or not to print counts only
+COUNTONLY=0		# (Optional) Whether or not to print counts only
 
 ## Params
 SHORT_ARGS='p:d:o:c'
@@ -82,9 +82,9 @@ pattern_array=${PATTERN//$DELIMITER/ }
 for p in ${pattern_array[@]} # Start Stop
 do
 	if [ $COUNTONLY -eq  1 ]; then
-		grep -E $p $FILENAME | wc -l >> $OUTFILE
+		grep -cE $p $FILENAME >> $OUTFILE
 	else
-		echo "$p : $(grep -E $p $FILENAME | wc -l)" >> $OUTFILE
+		echo "$p : $(grep -cE $p $FILENAME)" >> $OUTFILE
 	fi
 done
 ## End
